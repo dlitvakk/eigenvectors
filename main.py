@@ -38,7 +38,7 @@ def encrypt_message(message, key_matrix):
     encrypted_vector = np.dot(diagonalized_key_matrix, message_vector)
     return encrypted_vector
 
-message = "Kostiantyn Derkach is the best boy ever! <3"
+message = "Hello, world!"
 key_matrix = np.random.randint(0, 256, (len(message), len(message)))
 encrypted_message = encrypt_message(message, key_matrix)
 print("Encrypted: ", encrypted_message)
