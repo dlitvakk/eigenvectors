@@ -30,3 +30,29 @@ for eigenvalue in eigenvalues:
         print("Oops! The calculations are incorrect! :(")
     print("\n")
 
+###
+def encrypt_message(message, key_matrix):
+    message_vector = np.array([ord(char) for char in message])
+    eigenvalues_2, eigenvectors_2 = np.linalg.eig(key_matrix)
+    diagonalized_key_matrix = np.dot(np.dot(eigenvectors_2, np.diag(eigenvalues_2)), np.linalg.inv(eigenvectors_2))
+    encrypted_vector = np.dot(diagonalized_key_matrix, message_vector)
+    return encrypted_vector
+
+message = "Kostiantyn Derkach is the best boy ever! <3"
+key_matrix = np.random.randint(0, 256, (len(message), len(message)))
+encrypted_message = encrypt_message(message, key_matrix)
+print("Encrypted: ", encrypted_message)
+
+
+
+def decrypt_message(encrypted_vector, key_matrix):
+    eigenvalues_3, eigenvectors_3 = np.linalg.eig(key_matrix)
+    diagonalized_key_matrix = np.dot(np.dot(eigenvectors_3, np.diag(eigenvalues_3)), np.linalg.inv(eigenvectors_3))
+    diagonalized_key_matrix_inv = np.linalg.inv(diagonalized_key_matrix)
+    decrypted_vector = np.dot(diagonalized_key_matrix_inv, encrypted_vector)
+    decrypted_message = ''.join([chr(int(round(num.real))) for num in decrypted_vector])
+    return decrypted_message
+
+
+decrypted_message = decrypt_message(encrypted_message, key_matrix)
+print("Decrypted: ", decrypted_message)
